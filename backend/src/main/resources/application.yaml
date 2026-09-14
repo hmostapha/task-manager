@@ -1,0 +1,29 @@
+server:
+  port: 8181
+
+
+spring:
+  application:
+    name: tasks
+management:
+  endpoints:
+    web:
+      base-path: /rest/actuator
+      exposure:
+        include: '*'
+
+springdoc:
+  swagger-ui:
+    display-request-duration: true
+    groups-order: DESC
+    operations-sorter: method
+    use-root-path: true
+
+  spring:
+    datasource:
+      url: jdbc:h2:mem:mydb
+      username: sa
+      password: password
+      driverClassName: org.h2.Driver
+    jpa:
+      database-platform: org.hibernate.dialect.H2Dialect
