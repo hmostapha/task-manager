@@ -1,0 +1,172 @@
+<section class="task-list">
+
+  <div class="task-filters">
+
+    <mat-form-field appearance="outline">
+      <mat-label>Search</mat-label>
+      <input
+        matInput
+        [(ngModel)]="search"
+        placeholder="Title or description"
+        (keyup.enter)="searchTasks()">
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Status</mat-label>
+      <mat-select [(ngModel)]="status">
+        <mat-option value="">All</mat-option>
+        <mat-option [value]="TaskStatus.TODO">To do</mat-option>
+        <mat-option [value]="TaskStatus.IN_PROGRESS">In progress</mat-option>
+        <mat-option [value]="TaskStatus.DONE">Done</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <button
+      mat-raised-button
+      color="primary"
+      type="button"
+      (click)="searchTasks()">
+      <mat-icon>search</mat-icon>
+      Search
+    </button>
+
+    <button
+      mat-raised-button
+      color="primary"
+      type="button"
+      class="create-button"
+      (click)="createTask()">
+      <mat-icon>add</mat-icon>
+      Create task
+    </button>
+
+  </div>
+
+  @if (loading()) {
+
+  <div class="loading">
+    <mat-spinner diameter="40"></mat-spinner>
+  </div>
+
+  } @else if (tasks().length === 0) {
+
+  <div class="empty-state">
+    <mat-icon>task</mat-icon>
+    <p>No tasks found.</p>
+  </div>
+
+  } @else {
+
+  <div class="task-table-container">
+
+    <table mat-table [dataSource]="tasks()">
+
+      <!-- Title -->
+      <ng-container matColumnDef="title">
+        <th mat-header-cell *matHeaderCellDef>
+          Title
+        </th>
+
+        <td mat-cell *matCellDef="let task">
+          {{ task.title }}
+        </td>
+      </ng-container>
+
+      <!-- Description -->
+      <ng-container matColumnDef="description">
+        <th mat-header-cell *matHeaderCellDef>
+          Description
+        </th>
+
+        <td mat-cell *matCellDef="let task">
+          {{ task.description }}
+        </td>
+      </ng-container>
+
+      <!-- Status -->
+      <ng-container matColumnDef="status">
+        <th mat-header-cell *matHeaderCellDef>
+          Status
+        </th>
+
+        <td mat-cell *matCellDef="let task">
+          {{ statusLabel(task.status) }}
+        </td>
+      </ng-container>
+
+      <!-- Start -->
+      <ng-container matColumnDef="startAt">
+        <th mat-header-cell *matHeaderCellDef>
+          Start
+        </th>
+
+        <td mat-cell *matCellDef="let task">
+          {{ task.startAt | date:'dd/MM/yyyy HH:mm' }}
+        </td>
+      </ng-container>
+
+      <!-- End -->
+      <ng-container matColumnDef="endAt">
+        <th mat-header-cell *matHeaderCellDef>
+          End
+        </th>
+
+        <td mat-cell *matCellDef="let task">
+          {{ task.endAt | date:'dd/MM/yyyy HH:mm' }}
+        </td>
+      </ng-container>
+
+      <!-- Actions -->
+      <ng-container matColumnDef="actions">
+        <th mat-header-cell *matHeaderCellDef>
+          Actions
+        </th>
+
+        <td mat-cell *matCellDef="let task">
+
+          <button
+            mat-icon-button
+            (click)="editTask(task)"
+            aria-label="Edit task">
+            <mat-icon>edit</mat-icon>
+          </button>
+
+          <button
+            mat-icon-button
+            color="warn"
+            (click)="deleteTask(task)"
+            aria-label="Delete task">
+            <mat-icon>delete</mat-icon>
+          </button>
+
+        </td>
+      </ng-container>
+
+      <tr
+        mat-header-row
+        *matHeaderRowDef="displayedColumns">
+      </tr>
+
+      <tr
+        mat-row
+        *matRowDef="let row; columns: displayedColumns;">
+      </tr>
+
+    </table>
+
+  </div>
+  }
+
+  @if (!loading() && totalPages() > 0) {
+
+  <mat-paginator
+    [length]="totalElements()"
+    [pageIndex]="page()"
+    [pageSize]="size()"
+    [pageSizeOptions]="[10, 20, 50]"
+    (page)="changePage($event)">
+  </mat-paginator>
+
+  }
+
+</section>

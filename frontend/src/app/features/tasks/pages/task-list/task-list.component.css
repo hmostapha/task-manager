@@ -1,0 +1,61 @@
+.task-list {
+  max-width: 1200px;
+  margin: 32px auto;
+  padding: 0 24px;
+}
+
+.task-list-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 24px;
+}
+
+.task-list-title {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+}
+
+.task-list-title h1 {
+  margin: 0;
+  font-size: 28px;
+  font-weight: 500;
+}
+
+.task-list-title span {
+  color: #666;
+  font-size: 14px;
+}
+
+.task-list-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.task-table-container {
+  overflow-x: auto;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+}
+
+table {
+  width: 100%;
+}
+
+.loading {
+  display: flex;
+  justify-content: center;
+  padding: 48px;
+}
+
+.empty-state {
+  text-align: center;
+  padding: 48px;
+  color: #666;
+}
+
+mat-paginator {
+  margin-top: 8px;
+}
